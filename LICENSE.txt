@@ -1,0 +1,17 @@
+PhotoCull - licence for PhotoCull's own code
+
+Copyright (c) 2026 InexperiencedPotato. All rights reserved except as stated here.
+
+You may use and copy PhotoCull free of charge, for any personal or commercial purpose, and share the
+unmodified ZIP package with others free of charge, provided this file and THIRD_PARTY_NOTICES.txt stay with it.
+You may not sell PhotoCull or change PhotoCull's own code. PhotoCull's own source code is not published.
+
+These terms apply only to PhotoCull's own code. The third-party components in this package (Qt, PySide6,
+Python, NumPy, OpenCV, Pillow and others) keep their own licences, listed in THIRD_PARTY_NOTICES.txt and the
+LICENSES folder. Nothing in these terms restricts what those licences allow you to do with those components,
+including replacing the Qt libraries with another version (see THIRD_PARTY_NOTICES.txt, "Replacing Qt") and
+reverse engineering for debugging such a replacement.
+
+PhotoCull is provided "as is", without warranty of any kind, express or implied, including merchantability,
+fitness for a particular purpose and non-infringement. The author is not liable for any claim, damages or
+other liability, including loss of or damage to files, arising from the use of PhotoCull. Back up your photos.

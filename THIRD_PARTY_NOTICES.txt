@@ -1,0 +1,136 @@
+PhotoCull 0.1.0 - third-party software notices
+================================================
+
+PhotoCull is a local, offline photo-culling tool. This package contains the third-party components below.
+Licence texts are in the LICENSES folder next to this file. This file is an inventory and notice, NOT legal
+advice and NOT a statement that every licence obligation has been met: see "Open points" at the end.
+
+1. Qt 6.12.0 and PySide6 / Shiboken6 6.12.0  (The Qt Company)
+---------------------------------------------------------------
+PhotoCull uses Qt through PySide6-Essentials 6.12.0 and shiboken6 6.12.0, unmodified, as published on PyPI.
+Their package metadata states: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only (or a Qt commercial licence).
+PhotoCull uses them under the GNU Lesser General Public License version 3 (LGPLv3).
+  * The Library (Qt and PySide6) is used in PhotoCull, and the Library and its use are covered by the LGPLv3.
+    Copies of the GNU LGPLv3 and the GNU GPLv3 (downloaded from gnu.org) are in LICENSES\Qt-LGPL-3.0.txt and
+    LICENSES\Qt-GPL-3.0.txt.
+  * Qt and PySide6 are linked dynamically: they are separate, unmodified files (Qt6*.dll, PySide6\*.pyd,
+    shiboken6\*.dll, PySide6\plugins\) in PhotoCull\_internal. The LGPLv3 allows replacing them with an
+    interface-compatible build (see "Replacing Qt"). PhotoCull's terms do not restrict that, or reverse
+    engineering for debugging such a change.
+  * Source code of the exact versions used:
+      Qt 6.12.0:       https://download.qt.io/official_releases/qt/6.12/6.12.0/submodules/
+      PySide6 6.12.0:  https://code.qt.io/cgit/pyside/pyside-setup.git/  (tag v6.12.0)
+    The Qt and PySide6 files here are unmodified. If you received this ZIP from InexperiencedPotato, the same
+    source is also available on written request for at least three years after you received it; if it is
+    published next to the download, use that copy. PhotoCull's own source code is not published; PhotoCull's
+    licence (LICENSE.txt) allows replacing Qt as described below.
+  * Replacing Qt: in a Python 3.12 environment install the same PySide6-Essentials version (or an
+    interface-compatible one), copy its PySide6\ and shiboken6\ folders over the ones in _internal\, and start
+    PhotoCull.exe. Tested once on the build machine with PySide6-Essentials 6.12.0 from a venv (frozen self-test
+    passed); not tested with any other version.
+  * Qt's own third-party components. Qt's published list for Qt 6.12 is saved as
+    LICENSES\Qt-6.12-third-party-code-list.html. The Qt DLLs/plugins used here include code from: zlib,
+    double-conversion, PCRE2, FreeType, HarfBuzz, libjpeg-turbo, libpng, MD4C, Pixman, the Unicode data files
+    and others (Qt Core/Gui); libtiff and libwebp (image plugins qtiff, qwebp); libpsl and the Public Suffix
+    List (Qt Network). The copyright notices and licence texts of every component of the shipped modules
+    (Qt Core, Qt GUI, Qt Network, Qt SVG, Qt Image Formats) are in LICENSES\Qt-third-party-licenses.txt, taken
+    from Qt's attribution pages (https://doc.qt.io/qt-6/<module>-attribution-<component>.html) by
+    packaging\fetch_qt_attributions.py. A few entries there apply only to macOS/Linux/Android builds.
+  * PySide6\opengl32sw.dll (19.7 MB, software OpenGL) is Mesa's llvmpipe renderer, built on LLVM (the file
+    contains the string "Mesa 11.2.2"). Qt lists Mesa llvmpipe as MIT and Boost Software License 1.0, and LLVM
+    as University of Illinois/NCSA plus BSD licences; both texts are in LICENSES\Qt-third-party-licenses.txt
+    (sections qt-attribution-llvmpipe and qt-attribution-llvm). Qt loads it only as a fallback when an OpenGL
+    context is created (QOpenGLWidget, QOpenGLWindow, Qt Quick on OpenGL); PhotoCull uses only Qt Core, GUI and
+    Widgets and creates none. On the build machine it was not loaded even with QT_OPENGL=software, and the window
+    rendered identically without it. It is kept because removing it would only save space and the full UI has
+    not been exercised in a packaged build without it.
+  * Qt for Python's licensing page (https://doc.qt.io/qtforpython-6/licenses.html) lists, apart from Qt
+    itself, only material used in PySide6 examples and tools; none of it is in PySide6-Essentials' runtime
+    files shipped here.
+
+2. Pillow 13.0.0                       MIT-CMU          LICENSES\Pillow-LICENSE.txt
+3. NumPy 2.5.4                         BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0
+                                       LICENSES\NumPy-LICENSE.txt and NumPy-third-party-*.txt (from the wheel).
+                                       Also bundles OpenBLAS (numpy.libs\libscipy_openblas64_*.dll); the
+                                       wheel's own notice files are in _internal\numpy-2.5.4.dist-info\licenses\.
+   typing_extensions 4.16.0            PSF-2.0          LICENSES\typing_extensions-PSF-2.0-LICENSE.txt
+
+4. OpenCV (opencv-python-headless 5.0.0.93)
+---------------------------------------------
+  * OpenCV: Apache-2.0. The Apache-2.0 text and the notices for OpenCV's bundled libraries are the first
+    sections of LICENSES\OpenCV-LICENSE-3RD-PARTY.txt (this is the file the wheel ships).
+  * Packaging scripts of the wheel: MIT (LICENSES\OpenCV-python-packaging-LICENSE-MIT.txt).
+  * FFmpeg is NOT included. The OpenCV wheel ships cv2\opencv_videoio_ffmpeg500_64.dll (FFmpeg under LGPLv2.1
+    with OpenH264, libvpx and aom); OpenCV loads it only for video input/output, which PhotoCull never uses
+    (it calls cv2.Laplacian only). The build leaves the file out (packaging\photocull.spec) and fails if it
+    reappears (packaging\build.ps1). The FFmpeg/OpenH264/libvpx/aom sections of OpenCV-LICENSE-3RD-PARTY.txt
+    therefore describe components that are not in this package.
+  * cv2.pyd contains Intel IPP (binary-only; its notice is in OpenCV-LICENSE-3RD-PARTY.txt, headed "Intel(R)
+    Integrated Performance Primitives 2026.0.0"; the wheel's build info says IPP 2026.0.0).
+  * Pillow's AVIF module (PIL\_avif.pyd) is NOT included; PhotoCull never reads or writes AVIF.
+
+5. Python 3.12.6                       PSF License      LICENSES\Python-PSF-LICENSE.txt
+   LICENSES\Python-PSF-LICENSE.txt is the LICENSE.txt of the Windows Python installer (PSF licence, the
+   Windows build's Microsoft Distributable Code conditions, bzip2, libffi, OpenSSL, Tcl/Tk).
+   The other software compiled into python312.dll and the .pyd modules (expat, zlib, libmpdec, SipHash,
+   Mersenne Twister, strtod/dtoa, cfuhash, ...) is acknowledged in LICENSES\Python-3.12-incorporated-software.txt
+   (from https://docs.python.org/3.12/license.html).
+   OpenSSL 3.0.15 (libcrypto-3.dll, libssl-3.dll): Apache-2.0, text in LICENSES\OpenSSL-3.0.15-LICENSE.txt
+   (the LICENSE.txt of the openssl-3.0.15 tag, https://github.com/openssl/openssl/tree/openssl-3.0.15). That
+   tag has no NOTICE file, so Apache-2.0 section 4(d) adds nothing. SQLite 3.45.3 (sqlite3.dll): public domain.
+   xz/liblzma (_lzma.pyd): public domain / 0BSD.
+
+6. PyInstaller 6.22.3                  LICENSES\PyInstaller-COPYING.txt, PyInstaller-hooks-contrib-LICENSE.txt
+   PyInstaller is GPL-2.0-or-later with a Bootloader Exception that allows embedding the compiled bootloader
+   into programs under any licence (COPYING.txt lines 16-26). The bootloader and the runtime hooks that are
+   embedded in PhotoCull.exe are Apache-2.0 per COPYING.txt. pyinstaller-hooks-contrib: its build-time hooks are
+   GPL-2.0-or-later and are not shipped; its runtime hooks (Apache-2.0) would be, if used.
+
+7. Microsoft Visual C++ runtime (VCRUNTIME140*, MSVCP140*)
+   Not bundled. PhotoCull needs Microsoft's current Visual C++ Redistributable (x64) installed:
+   https://aka.ms/vc14/vc_redist.x64.exe . The build removes every vcruntime140*/msvcp140* file, including NumPy's
+   renamed numpy.libs\msvcp140-<hash>.dll, and fails if one reappears (packaging\photocull.spec, packaging\build.ps1).
+   The Universal C Runtime is part of Windows 10 and later.
+   NumPy's two C++ extension modules (numpy\_core\_multiarray_umath*.pyd, numpy\fft\_pocketfft_umath*.pyd) import
+   that renamed file by its exact name. The build (packaging\unmangle_msvcp.py) overwrites that one import-table
+   name string in each of the two files with "msvcp140.dll" (padded with NUL, same length; nothing else changes),
+   so they load the redistributable the user installed. LICENSES\NumPy-import-patch.txt records the exact
+   offsets and SHA-256 of both files before and after. NumPy is modified only in this way; its licence
+   (LICENSES\NumPy-LICENSE.txt) is unchanged. Nothing from Microsoft is in this ZIP, no Microsoft file is copied at
+   run time and nothing is written outside the user's PhotoCull data folder. If the redistributable is missing
+   altogether, Windows reports "Failed to load Python DLL" before PhotoCull can show its own message.
+
+8. typing_extensions 4.16.0 (pure Python, inside the executable's archive): PSF-2.0, text in
+   LICENSES\typing_extensions-PSF-2.0-LICENSE.txt. PhotoCull's own licence: LICENSE.txt next to this file.
+   The PyInstaller bootloader inside PhotoCull.exe statically contains zlib 1.3.2 (zlib licence; no notice
+   requirement for binaries).
+
+9. Contact sheets: PDFs are written by Qt's QPdfWriter (part of the Qt libraries in item 1). Sheet text (title, file
+   names, labels, page numbers) is drawn in Noto Sans Regular and Bold, version 2.015 (hinted TTF), bundled unmodified
+   in photocull\fonts (_internal\photocull\fonts in the ZIP); a subset is embedded in each PDF.
+   Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic). Licence: SIL Open Font
+   License 1.1, text in LICENSES\NotoSans-OFL.txt (taken from that repository's OFL.txt; the font files' own licence
+   fields point to the same licence; fsType 0 = installable embedding). The files were fetched from
+   github.com/notofonts/notofonts.github.io (fonts/NotoSans/hinted/ttf) and match the repository's Git blob IDs.
+   SHA-256: NotoSans-Regular.ttf 478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823,
+            NotoSans-Bold.ttf    1df075a380fc7cb898acf64c1f7b3b4dd780de3caa860178bf929de35817a913.
+   No Windows system font is embedded or shipped for sheets.
+
+Open points (not resolved; do not read this file as a claim of full compliance)
+-------------------------------------------------------------------------------
+1. Qt/PySide6: LGPLv3 conditions were checked against the LGPLv3 text, Qt's page
+   https://doc.qt.io/qt-6/lgpl.html and the Qt for Python licensing page; no legal review has been done.
+   REQUIRES LEGAL REVIEW: whether the notices above and the source offer are sufficient, and whether pointing to
+   the unmodified upstream sources satisfies the source-availability condition.
+2. Microsoft runtime: no Microsoft runtime file is bundled or copied (item 7); the NumPy import-name rewrite
+   has not been reviewed against NumPy's or Microsoft's terms. REQUIRES LEGAL REVIEW. python312.dll and the Python build are still from the python.org Windows
+   installer, whose "Additional Conditions for this Windows binary build" were not reviewed for that.
+3. PhotoCull's own licence is LICENSE.txt (freeware terms, source not published). Whether a closed PhotoCull
+   fully meets LGPL "Corresponding Application Code" has not been reviewed. Intel IPP: the licence text in the
+   package matches the IPP 2026.0.0 licence as compared by the maintainer; whether it permits this redistribution
+   has not been reviewed by a lawyer.
+4. The executables are unsigned (no code-signing certificate is available), so Windows SmartScreen and
+   antivirus products may warn. Codec patent licensing is outside this review (no video codecs are shipped).
+5. Noto Sans (item 9): the licence text, copyright line and file integrity were checked against the upstream
+   repositories, and the fonts are shipped unmodified with their licence. Whether that satisfies every OFL condition
+   for this distribution (and for PDFs users make with the embedded subset) has not had a legal review.
